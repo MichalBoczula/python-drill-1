@@ -1,0 +1,48 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "python-drill-1"
+version = "0.1.0"
+description = "Clean Architecture FastAPI + MongoDB starter for Python drills"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+  "fastapi>=0.120,<1",
+  "uvicorn[standard]>=0.38,<1",
+  "pydantic>=2.12,<3",
+  "pydantic-settings>=2.10,<3",
+  "pymongo>=4.14,<5",
+]
+
+[dependency-groups]
+dev = [
+  "httpx>=0.28,<1",
+  "pytest>=8.4,<10",
+  "pytest-asyncio>=1.0,<2",
+  "pytest-bdd>=9,<10",
+  "pytest-cov>=6,<8",
+  "ruff>=0.14,<1",
+  "testcontainers[mongodb]>=4.12,<5",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/todo_api"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+asyncio_mode = "auto"
+markers = [
+  "unit: isolated unit tests",
+  "integration: MongoDB integration tests requiring Docker",
+  "acceptance: API acceptance tests written in Gherkin",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py314"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "B", "UP"]
