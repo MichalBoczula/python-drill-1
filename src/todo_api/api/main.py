@@ -1,10 +1,8 @@
 """FastAPI bootstrap and composition root."""
 
-from collections.abc import AsyncIterator
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-
 from fastapi import FastAPI
-
 from todo_api.api.endpoints import health, tasks
 from todo_api.api.exception_handlers import register_exception_handlers
 from todo_api.infrastructure.config import get_settings
@@ -12,7 +10,7 @@ from todo_api.infrastructure.database.mongodb import create_client, get_database
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     settings = get_settings()
     client = create_client(settings)
     app.state.mongo_client = client
