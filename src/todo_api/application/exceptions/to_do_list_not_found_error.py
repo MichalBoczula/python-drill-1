@@ -1,0 +1,2 @@
+class ToDoListNotFoundError(LookupError):
+    pass
